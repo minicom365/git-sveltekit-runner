@@ -16,8 +16,9 @@ echo_msg() {
   fi
 }
 
-echo_msg "🔄 git pull..." "🔄 git pull..."
-git pull
+echo_msg "🔄 원격 저장소에서 최신 상태 가져오는 중..." "🔄 Fetching latest state from remote repository..."
+git fetch --all
+git reset --hard origin/$(git rev-parse --abbrev-ref HEAD)
 
 echo_msg "🔧 $PKG_MGR install..." "🔧 $PKG_MGR install..."
 $PKG_MGR install
