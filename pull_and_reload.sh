@@ -14,6 +14,6 @@ $PKG_MGR install
 echo "🔧 $PKG_MGR build..."
 $PKG_MGR run build
 
-echo "🔁 SvelteKit 서버 재시작..."
+echo "🔁 restart SvelteKit server..."
 pkill -f "$PKG_MGR start" || pkill -f "node build" || true
 $PKG_MGR start &

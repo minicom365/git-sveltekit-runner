@@ -2,12 +2,12 @@
 set -e
 
 if [ -z "$GIT_REPO" ]; then
-  echo "❌ GIT_REPO 환경변수가 설정되지 않았습니다."
+  echo "❌ GIT_REPO environment variable is not set."
   exit 1
 fi
 
 if [ ! -d "/app/repo/.git" ]; then
-  echo "📦 Git 저장소 최초 클론: $GIT_REPO"
+  echo "📦 Cloning Git repository for the first time: $GIT_REPO"
   git clone "$GIT_REPO" /app/repo
 fi
 

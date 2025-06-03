@@ -1,4 +1,4 @@
-FROM node:24
+FROM node:latest
 
 # 시스템 패키지 설치 (Flask 용 Python 포함)
 RUN apt update && apt install -y \
