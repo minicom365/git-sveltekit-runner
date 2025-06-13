@@ -70,10 +70,16 @@ kill_sveltekit_processes
 echo_msg "🔁 SvelteKit 서버 재시작..." "🔁 Restarting SvelteKit server..."
 $PKG_MGR start &
 
-# 서버 시작 확인
-sleep 5
-if lsof -i:3000 >/dev/null 2>&1; then
+# 서버 시작 확인 (더 안정적인 방법)
+sleep 3
+echo_msg "🔍 서버 상태 확인 중..." "🔍 Checking server status..."
+
+# 여러 방법으로 포트 확인
+if netstat -tln 2>/dev/null | grep ":3000" >/dev/null || \
+   ss -tln 2>/dev/null | grep ":3000" >/dev/null || \
+   curl -f http://localhost:3000 >/dev/null 2>&1; then
   echo_msg "🎉 서버가 성공적으로 시작됐어!" "🎉 Server started successfully!"
 else
-  echo_msg "❌ 서버 시작에 실패했어..." "❌ Failed to start server..."
+  echo_msg "⚠️ 서버 상태를 확인할 수 없어요" "⚠️ Unable to verify server status"
+  echo_msg "📋 하지만 로그를 확인해보세요!" "📋 But please check the logs!"
 fi
