@@ -11,6 +11,6 @@ if [ ! -d "/app/repo/.git" ]; then
   git clone "$GIT_REPO" /app/repo
 fi
 
-/pull_and_reload.sh
+/app/pull_and_reload.sh
 
-python3 /webhook_server.py
+python3 /app/webhook_server.py

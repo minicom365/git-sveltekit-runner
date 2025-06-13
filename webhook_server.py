@@ -6,7 +6,7 @@ app = Flask(__name__)
 @app.route("/webhook", methods=["POST"])
 def webhook():
     try:
-        subprocess.Popen(["/pull_and_reload.sh"])
+        subprocess.Popen(["/app/pull_and_reload.sh"])
         return "✅ pulled and reloaded", 200
     except Exception as e:
         return f"❌ Error: {str(e)}", 500

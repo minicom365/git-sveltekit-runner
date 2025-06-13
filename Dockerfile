@@ -17,11 +17,11 @@ RUN pip install flask
 
 WORKDIR /app
 
-COPY entrypoint.sh /entrypoint.sh
-COPY webhook_server.py /webhook_server.py
-COPY pull_and_reload.sh /pull_and_reload.sh
-RUN chmod +x /entrypoint.sh /pull_and_reload.sh
+COPY entrypoint.sh ./entrypoint.sh
+COPY webhook_server.py ./webhook_server.py
+COPY pull_and_reload.sh ./pull_and_reload.sh
+RUN chmod +x ./entrypoint.sh ./pull_and_reload.sh
 
 ENV GIT_REPO=""
 ENV PKG_MGR=""
-ENTRYPOINT ["/entrypoint.sh"]
+ENTRYPOINT ["/app/entrypoint.sh"]
