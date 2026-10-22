@@ -18,9 +18,7 @@ USER node
 
 ENV GIT_REPO="" \
     GIT_USER="minicoms" \
-    GIT_TOKEN="" \
     GIT_BRANCH="" \
-    WEBHOOK_SECRET="" \
     PKG_MGR="npm" \
     PORT="4000"
 

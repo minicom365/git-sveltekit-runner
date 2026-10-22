@@ -1,7 +1,7 @@
-# [EN] Tiny pull-and-reload webhook receiver for a SvelteKit app. No Flask/Python: plain Node.js stdlib.
-#      Verifies X-Gitea-Signature (HMAC-SHA256) when WEBHOOK_SECRET is set, then runs pull_and_reload.sh detached.
-# [KO] SvelteKit 앱용 초경량 webhook 수신기. Flask/Python 없이 Node.js 표준 라이브러리만 사용.
-#      WEBHOOK_SECRET이 있으면 X-Gitea-Signature(HMAC-SHA256)를 검증한 뒤 pull_and_reload.sh를 백그라운드로 실행.
+// [EN] Tiny pull-and-reload webhook receiver for a SvelteKit app. No Flask/Python: plain Node.js stdlib.
+//      Verifies X-Gitea-Signature (HMAC-SHA256) when WEBHOOK_SECRET is set, then runs pull_and_reload.sh detached.
+// [KO] SvelteKit 앱용 초경량 webhook 수신기. Flask/Python 없이 Node.js 표준 라이브러리만 사용.
+//      WEBHOOK_SECRET이 있으면 X-Gitea-Signature(HMAC-SHA256)를 검증한 뒤 pull_and_reload.sh를 백그라운드로 실행.
 'use strict';
 
 const http = require('http');

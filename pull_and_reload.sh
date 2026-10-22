@@ -31,11 +31,11 @@ kill_port_process() {
 
 echo_msg "🔄 원격 저장소에서 최신 상태 가져오는 중..." "🔄 Fetching latest state from remote..."
 if [ -n "${GIT_TOKEN:-}" ]; then
-  git -c "http.extraHeader=$(auth_header)" fetch origin "$BRANCH"
+  git -c "http.extraHeader=$(auth_header)" fetch origin "$BRANCH" || echo_msg "⚠️ fetch 실패 — 기존 체크아웃으로 계속" "⚠️ fetch failed; continuing with existing checkout"
 else
-  git fetch origin "$BRANCH"
+  git fetch origin "$BRANCH" || echo_msg "⚠️ fetch 실패 — 기존 체크아웃으로 계속" "⚠️ fetch failed; continuing with existing checkout"
 fi
-git reset --hard "origin/${BRANCH}"
+git reset --hard "origin/${BRANCH}" 2>/dev/null || echo_msg "⚠️ reset 건너뜀(로컬 체크아웃 유지)" "⚠️ reset skipped (keep local checkout)"
 
 echo_msg "🔧 $PKG_MGR install..." "🔧 $PKG_MGR install..."
 $PKG_MGR install --no-audit --no-fund
