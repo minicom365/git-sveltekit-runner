@@ -52,7 +52,7 @@ sleep 2
 kill_port_process 3000
 
 echo_msg "🔁 서버 재시작..." "🔁 Restarting server..."
-nohup $PKG_MGR start >/tmp/app.log 2>&1 &
+PORT=3000 nohup $PKG_MGR start >/tmp/app.log 2>&1 &
 sleep 3
 
 if curl -fs http://127.0.0.1:3000 >/dev/null 2>&1 || ss -tln 2>/dev/null | grep -q ':3000'; then
