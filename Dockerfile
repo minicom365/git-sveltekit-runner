@@ -6,15 +6,15 @@ RUN apt-get update \
     && apt-get install -y --no-install-recommends git ca-certificates curl bash psmisc \
     && rm -rf /var/lib/apt/lists/*
 
-RUN useradd -m -u 1000 -s /bin/bash runner
+RUN useradd -m -u 1000 -s /bin/bash runner 2>/dev/null || true
 
 WORKDIR /app
 COPY server.js entrypoint.sh pull_and_reload.sh ./
 RUN chmod +x entrypoint.sh pull_and_reload.sh \
     && mkdir -p /app/repo \
-    && chown -R runner:runner /app
+    && chown -R node:node /app
 
-USER runner
+USER node
 
 ENV GIT_REPO="" \
     GIT_USER="minicoms" \
