@@ -5,6 +5,12 @@ set -e
 
 cd /app/repo
 
+case "$(git remote get-url origin 2>/dev/null || true)" in
+  ssh://*|git@*)
+    export GIT_SSH_COMMAND="ssh -i ${GIT_SSH_KEY:-/app/.ssh/id_ed25519} -o IdentitiesOnly=yes -o UserKnownHostsFile=${GIT_SSH_KNOWN_HOSTS:-/app/.ssh/known_hosts} -o StrictHostKeyChecking=yes"
+    ;;
+esac
+
 PKG_MGR="${PKG_MGR:-npm}"
 BRANCH="${GIT_BRANCH:-$(git rev-parse --abbrev-ref HEAD)}"
 
