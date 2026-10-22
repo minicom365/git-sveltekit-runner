@@ -1,9 +1,14 @@
 services:
   git-sveltekit-runner:
-    image: minicom365/git-sveltekit-runner
+    image: minicom365/git-sveltekit-runner:latest
+    container_name: git-sveltekit-runner
     ports:
-      - "3000:3000"
       - "4000:4000"
     environment:
-      - GIT_REPO=
-    restart: always
+      - GIT_REPO=https://gitea.minicoms.duckdns.org/minicom365/institute-manager.git
+      - GIT_USER=minicoms
+      - GIT_TOKEN=${GIT_TOKEN:?GIT_TOKEN 환경변수 필요}
+      - WEBHOOK_SECRET=${WEBHOOK_SECRET:-}
+      - PKG_MGR=npm
+      - PORT=4000
+    restart: unless-stopped

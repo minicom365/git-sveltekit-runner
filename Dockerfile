@@ -1,30 +1,32 @@
-FROM node:latest
+# [EN] Slim Node.js-based runner image: no Python, no nginx. Runs as non-root (uid 1000), health-checked webhook.
+# [KO] Python·nginx 없는 슬림 Node.js 러너 이미지. 비루트(uid 1000) 실행, webhook 헬스체크 포함.
+FROM node:22-bookworm-slim
 
-# 시스템 패키지 설치 (Flask 용 Python 포함)
-RUN apt update && apt install -y \
-    python3 \
-    python3-pip \
-    python3.11-venv \
-    git \
-    curl \
-    nginx \
-    dos2unix \
-    && apt clean
-RUN python3 -m venv /venv
-# 환경변수 설정
-ENV PATH="/venv/bin:$PATH"
-# Flask 설치
-RUN pip install flask
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends git ca-certificates curl bash psmisc \
+    && rm -rf /var/lib/apt/lists/*
+
+RUN useradd -m -u 1000 -s /bin/bash runner
 
 WORKDIR /app
+COPY server.js entrypoint.sh pull_and_reload.sh ./
+RUN chmod +x entrypoint.sh pull_and_reload.sh \
+    && mkdir -p /app/repo \
+    && chown -R runner:runner /app
 
-COPY entrypoint.sh ./entrypoint.sh
-COPY webhook_server.py ./webhook_server.py
-COPY pull_and_reload.sh ./pull_and_reload.sh
-RUN chmod +x ./entrypoint.sh ./pull_and_reload.sh
-RUN dos2unix ./entrypoint.sh ./pull_and_reload.sh
+USER runner
 
+ENV GIT_REPO="" \
+    GIT_USER="minicoms" \
+    GIT_TOKEN="" \
+    GIT_BRANCH="" \
+    WEBHOOK_SECRET="" \
+    PKG_MGR="npm" \
+    PORT="4000"
 
-ENV GIT_REPO=""
-ENV PKG_MGR=""
+EXPOSE 4000
+
+HEALTHCHECK --interval=30s --timeout=5s --start-period=30s \
+    CMD curl -fs http://127.0.0.1:4000/health || exit 1
+
 ENTRYPOINT ["/app/entrypoint.sh"]
